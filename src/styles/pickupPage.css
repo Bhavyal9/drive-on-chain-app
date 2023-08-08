@@ -1,0 +1,25 @@
+.first-container, .upload-img, .image-item__btn-wrapper{
+    display:flex;
+}
+
+.green{
+    color:green;
+}
+
+ul{
+   list-style:none;
+   animation: slide-left 20s; 
+}
+
+.image-item{
+    margin:20px;
+}
+
+.image-item__btn-wrapper{
+    justify-content:space-evenly;
+}
+
+.errText{
+    height:200px;
+    width:90%;
+}

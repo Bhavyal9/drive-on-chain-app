@@ -1,0 +1,15 @@
+.summary-content,.booking-first-container, .c-line, .c-row{
+    display:flex;
+    justify-content:space-between;
+}
+
+.c-row{
+    flex-direction:column;
+}
+.summary-charges{
+    width:35%;
+}
+
+.right-container{
+    width:60%;
+}

@@ -1,0 +1,35 @@
+.content{
+    text-align:justify;
+     line-height:2;
+}
+
+.car-features{
+    margin:30px 20px;
+    display:flex;
+    justify-content: space-between;
+}
+
+#deposit{
+    width:200px;
+    margin:30px 40%;
+    text-align: center;
+}
+
+.car-feature-img{
+    margin:40px 50px 40px 40px;
+    width:500px;
+    height:250px;
+}
+
+.full-ratings{
+    display:flex;
+    align-items:center;
+}
+
+.car-reviews{
+    margin-left:50px;
+}
+
+.description{
+    padding:0px 50px;
+}

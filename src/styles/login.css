@@ -1,0 +1,51 @@
+.login-pg{
+    display:flex;
+    justify-content:space-between;
+}
+
+.login-img{
+    width:50%;
+    height:600px;
+}
+
+.login-form{
+    display:flex;
+    flex-direction: column;
+}
+
+.form-side{
+    margin:100px 150px;
+    padding:50px 50px;
+    border:1px solid black;
+}
+
+.label{
+    margin-top:20px;
+}
+
+.head{
+    margin:0px 30px;
+    font-size:17px;
+}
+
+.login-btn{
+    margin:30px 0px;
+    background-color: #F79413;
+    border: none;
+    border-radius: 5px;
+}
+
+.login-btn:hover{
+    cursor:pointer;
+    background-color: #df820a;
+}
+
+#email-id, #password, .login-btn{
+    width:250px;
+    padding:5px 5px;
+}
+
+.forgot{
+    font-size: 12px;
+    font-weight: bold;
+}

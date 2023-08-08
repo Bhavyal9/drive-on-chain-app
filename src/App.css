@@ -1,38 +1,73 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Roboto:wght@300;400&display=swap');
+*{
+   margin:0;
+   padding:0;
+   box-sizing:border-box;
+   font-family: 'Open Sans', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.bold{
+    font-weight: bold;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+hr{
+    border:1px solid black;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.logo{
+    width:140px;
+    height:70px;
 }
 
-.App-link {
-  color: #61dafb;
+.nav-section{
+    background-color: #f79413;
+    display:flex;
+    justify-content:space-around;
+    align-items: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-head{
+    font-weight:bold;
+}
+
+.nav-minor{
+    font-size:13px;
+    text-align: center;
+    font-weight: 400;
+}
+
+.req-call{
+    padding:7px 10px;
+    border-radius:5px;
+    background-color: rgb(48, 45, 45);
+    color:#f79413;
+    border:none;
+}
+
+.call-icon{
+    padding-top:5px;
+}
+
+.req-call:hover{
+    cursor:pointer;
+    background-color: rgb(0, 0, 0);
+}
+
+.login-link{
+font-weight: bold;
+font-size:14px;
+border:1px solid black;
+padding:5px 10px;
+background-color: rgb(48, 45, 45);
+}
+
+.login-link:hover{
+    cursor:pointer;
+    background-color: black;
+}
+
+.copyright{
+    background-color:rgb(48, 45, 45);
+    color:#f79413;
+    text-align:center;
 }
