@@ -92,3 +92,14 @@
 .star{
     color: #f79413;
 }
+
+.voteButton{
+    border:none;
+    background-color:#fff;
+    border-radius:5px;
+    padding:5px;
+}
+
+.voteButton:hover{
+cursor:pointer;
+}

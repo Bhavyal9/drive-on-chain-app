@@ -11,6 +11,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
@@ -19,9 +20,17 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "outDir": "./dist",
+    
     "experimentalDecorators": true
   },
   "include": [
-    "src"
-  ]
+    "src/**/*.ts", "tests/**/*.ts"
+  ],
+  "plugins": [
+    {
+      "transform": "scrypt-ts/dist/transformation/transformer",
+      "outDir": "./artifacts",
+      "transformProgram": true
+    }]
 }

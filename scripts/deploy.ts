@@ -1,7 +1,7 @@
 import { writeFileSync } from 'fs'
-import { DriveOnChainApp } from '../src/contracts/driveOnChainApp'
+import { DriveOnChainApp, Name } from '../src/contracts/driveOnChainApp'
 import { privateKey } from './privateKey'
-import { bsv, TestWallet, DefaultProvider, sha256 } from 'scrypt-ts'
+import { bsv, TestWallet, DefaultProvider, sha256, FixedArray, toByteString } from 'scrypt-ts'
 
 function getScriptHash(scriptPubKeyHex: string) {
     const res = sha256(scriptPubKeyHex).match(/.{2}/g)
@@ -20,12 +20,18 @@ async function main() {
         network: bsv.Networks.testnet
     }))
 
-    // TODO: Adjust the amount of satoshis locked in the smart contract:
+    // Adjust the amount of satoshis locked in the smart contract:
     const amount = 100
 
+    const candidateNames: FixedArray<Name, 4> = [
+        toByteString('Toyota', true),
+        toByteString('BMW', true),
+        toByteString('Nissan', true),
+        toByteString('Mercedes', true)
+    ]
+
     const instance = new DriveOnChainApp(
-        // TODO: Pass constructor parameter values.
-        0n
+        candidateNames
     )
 
     // Connect to a signer.

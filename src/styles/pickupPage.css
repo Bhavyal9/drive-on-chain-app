@@ -3,7 +3,7 @@
 }
 
 .green{
-    color:green;
+    color:#0f9b0a;
 }
 
 ul{
@@ -21,5 +21,75 @@ ul{
 
 .errText{
     height:200px;
-    width:90%;
+    width:95%;
+}
+
+.car-info-confirmation{
+    margin:20px 10px;
+    line-height:2;
+    font-size:15px;
+}
+
+.car-issues, .car-final-confirmation{
+    margin:10px 30px 20px;
+    line-height:2;
+}
+
+.errSubmitButton, .finalPayement, .refundButton{
+    width:100px;
+    margin-top:20px;
+    padding:7px;
+    border:5px;
+    background-color:#f79413;
+    border-radius:5px;
+    color:#fff;
+}
+
+.grey{
+    color:#756e6e;
+}
+
+.finalPayement, .refundButton{
+    width:200px;
+    background-color:#0f9b0a;
+}
+
+.refundButton{
+    margin:10px 30px; 
+}
+
+.buttonWidth{
+    width:150px;
+    margin:10px 10px 10px 0px;
+}
+
+.errSubmitButton:hover, .finalPayement:hover, .refundButton:hover{
+cursor:pointer;
+}
+
+.finalPayement:hover, .refundButton:hover{
+background-color:#0c6608;
+}
+
+.errSubmitButton:hover{
+background-color:#ea8100;
+}
+
+.fadeIn>li, .car-final-confirmation>li{
+    display:flex;
+    align-items: center;
+}
+
+.voting{
+width:30%;
+padding:30px 10px 10px;
+box-shadow: 1px 2px 15px 2px rgba(224,224,224,1);
+text-align:center;
+margin:20px 450px;
+}
+
+.completeJourneyHr{
+   border:0.5px solid rgb(173, 172, 171, 0.5);
+   width:95%;
+   margin:20px auto;
 }

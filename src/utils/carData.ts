@@ -22,7 +22,7 @@ const toyota = require("../asset/car-images/offer-toyota.png");
 
 export const CarDatas: Cardata[] = [
   {
-    id: 1,
+    id: 0,
     brand: "Toyota",
     Acceleration: "7.4 sec",
     CO2Emissions: "98 g/km",
@@ -51,7 +51,7 @@ export const CarDatas: Cardata[] = [
   },
 
   {
-    id: 2,
+    id: 1,
     brand: "BMW",
     Acceleration: "8.3 sec",
     CO2Emissions: "134 g/km",
@@ -62,7 +62,7 @@ export const CarDatas: Cardata[] = [
     batteryCapacity: "12 kWh",
     rating: 132,
     imgUrl: bmw,
-    price: 65,
+    price: 85,
     features: [
       "Heated front seats",
       "Front and rear headrests",
@@ -80,7 +80,7 @@ export const CarDatas: Cardata[] = [
   },
 
   {
-    id: 3,
+    id: 2,
     brand: "Nissan",
     Acceleration: "7.5 sec",
     CO2Emissions: "115 g/km",
@@ -91,7 +91,7 @@ export const CarDatas: Cardata[] = [
     Gears: "1-speed",
     rating: 132,
     imgUrl: nissan,
-    price: 65,
+    price: 70,
     features: [
       "Electrically driven intelligent braking system",
       "Intelligent Cruise control (ICC)",
@@ -108,7 +108,7 @@ export const CarDatas: Cardata[] = [
   },
 
   {
-    id: 4,
+    id: 3,
     brand: "Mercedes",
     Acceleration: "5.2 sec",
     CO2Emissions: "118 g/km",
@@ -119,7 +119,7 @@ export const CarDatas: Cardata[] = [
     star: 5.0,
     rating: 132,
     imgUrl: mercedes,
-    price: 85,
+    price: 90,
     features: [
       "Anti-lock brake system",
       "Warning triangle and first aid kit",

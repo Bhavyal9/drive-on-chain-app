@@ -36,10 +36,9 @@ hr{
     font-weight: 400;
 }
 
-.req-call{
+.req-call, .bookingButton{
     padding:7px 10px;
     border-radius:5px;
-    background-color: rgb(48, 45, 45);
     color:#f79413;
     border:none;
 }
@@ -53,12 +52,15 @@ hr{
     background-color: rgb(0, 0, 0);
 }
 
+.navcolor{
+    background-color: rgb(48, 45, 45);
+}
+
 .login-link{
 font-weight: bold;
 font-size:14px;
 border:1px solid black;
 padding:5px 10px;
-background-color: rgb(48, 45, 45);
 }
 
 .login-link:hover{
@@ -67,7 +69,10 @@ background-color: rgb(48, 45, 45);
 }
 
 .copyright{
-    background-color:rgb(48, 45, 45);
     color:#f79413;
     text-align:center;
+}
+
+.bcolor{
+    color:#f79413
 }
