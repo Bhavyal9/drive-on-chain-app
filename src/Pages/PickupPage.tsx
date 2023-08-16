@@ -61,8 +61,6 @@ const PickupPage = () => {
 
       const message = toByteString("Pranav", true);
 
-      await BookingDetails.compile();
-
       const instance = new BookingDetails(sha256(message));
 
       // deploy the contract and lock up 42 satoshis in it

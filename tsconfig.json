@@ -11,7 +11,6 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "sourceMap": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
@@ -20,17 +19,26 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "outDir": "./dist",
-    
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "preserveValueImports": false,
+    "noPropertyAccessFromIndexSignature": false
   },
   "include": [
-    "src/**/*.ts", "tests/**/*.ts"
+    "src"
   ],
-  "plugins": [
-    {
-      "transform": "scrypt-ts/dist/transformation/transformer",
-      "outDir": "./artifacts",
-      "transformProgram": true
-    }]
+  "ts-node": {
+    "compilerOptions": {
+      "lib": [
+        "es2020"
+      ],
+      "module": "CommonJS",
+      "target": "es2020",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "moduleResolution": "node",
+      "experimentalDecorators": true
+    }
+  }
 }

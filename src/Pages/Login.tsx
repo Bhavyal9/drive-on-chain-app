@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import "../styles/login.css"
 import Nav from '../Components/Nav';
-import { Link } from 'react-router-dom';
 import {users} from "../utils/users"
 import Footer from '../Components/Footer';
 
