@@ -7,6 +7,7 @@ import Login from "./Pages/Login";
 import BookingDetails from "./Pages/BookingDetails";
 import PickupPage from "./Pages/PickupPage";
 import CompleteJourney from "./Pages/CompleteJourney";
+import Admin from "./Pages/Admin";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path=":id/book/:id" element={<BookingDetails />} />
         <Route path=":id/book/:id/pickup/:id" element={<PickupPage />} />
         <Route path="/complete" element={<CompleteJourney />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </div>
   );

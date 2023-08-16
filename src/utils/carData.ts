@@ -13,6 +13,13 @@ interface Cardata{
       price: number
       features:any;
       description:string;
+      kmDriven:number,
+      fuelPrnt:string,
+      year:number,
+      color:string,
+      emission:string,
+      safety:number
+
   }
 
 const bmw = require("../asset/car-images/bmw-offer.png");
@@ -46,8 +53,14 @@ export const CarDatas: Cardata[] = [
       "Wireless Charger",
       "Heated Driver and Passenger Seat",
     ],
+    kmDriven:50000,
+    fuelPrnt:"75%",
+    year:2021,
+      color:"White",
+      emission:"EURO 6",
+      safety:5,
     description:
-      " The Camry Hybrid seamlessly blends the sophisticated luxury of a premium sedan with the impressive capabilities of a self-charging hybrid engine. Its sleek appearance and cutting-edge features create an exhilarating and inventive driving experience. The 2.5-liter engine delivers remarkable power and torque, ensuring smooth performance while maintaining a blissfully quiet ride and improved efficiency.",
+      " The Fortuner seamlessly blends the sophisticated luxury of a premium sedan with the impressive capabilities of a self-charging hybrid engine. Its sleek appearance and cutting-edge features create an exhilarating and inventive driving experience. The 2.5-liter engine delivers remarkable power and torque, ensuring smooth performance while maintaining a blissfully quiet ride and improved efficiency.",
   },
 
   {
@@ -75,6 +88,12 @@ export const CarDatas: Cardata[] = [
       "Active guard plus",
       "Front sports seats",
     ],
+    kmDriven:52500,
+    fuelPrnt:"85%",
+    year:2020,
+      color:"Red",
+      emission:"EURO 6",
+      safety:4,
     description:
       "The Sport 3 Series comes with 18-inch alloy wheels, along with exterior trim details and leather seats. Additionally, it boasts the SE's LED headlights, three-zone climate control, automatic cruise control, heated seats, automatic headlights and wipers, front and rear parking sensors, a reversing camera, and BMW's 8.8-inch screen infotainment system, which includes DAB radio, Bluetooth, USB connection, Apple CarPlay, and Android Auto.",
   },
@@ -103,6 +122,12 @@ export const CarDatas: Cardata[] = [
       "Rear armrest",
       "Intelligent rear emergency braking with pedestrian recognition",
     ],
+    kmDriven:37000,
+    fuelPrnt:"70%",
+    year:2018,
+      color:"Off-White",
+      emission:"EURO 6",
+      safety:5,
     description:
       "Included as standard, the Nissan Ariya in Advance specification comes equipped with 19-inch alloy wheels, LED headlights, climate control, a heated windscreen, power-adjustable and heated front seats, a 12.3-inch touchscreen infotainment system, and front and rear parking sensors. Moreover, the safety features on this trim are quite impressive, encompassing blind spot monitoring, adaptive cruise control, a driver drowsiness monitor, and autonomous emergency braking.",
   },
@@ -131,6 +156,12 @@ export const CarDatas: Cardata[] = [
       "Steering wheel gearshift paddles",
       "Lockable/illuminated air conditioned glovebox",
     ],
+    kmDriven:40523,
+    fuelPrnt:"75%",
+    year:2020,
+      color:"White",
+      emission:"EURO 6",
+      safety:4,
     description:
       "The long and sleek appearance of the vehicle is accentuated by the 20-inch alloy wheels, and the style is further intensified with the addition of an AMG bodykit. Stepping inside, you'll find a slide and tilt glass sunroof as well as privacy glass. Completing the package is a range of convenient features, including automatic lights and wipers, cruise control, and multibeam LED headlights, creating a well-rounded and comprehensive offering.",
   },

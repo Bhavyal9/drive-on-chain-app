@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { CarDatas } from "../utils/carData";
 import Nav from "../Components/Nav";
 import Footer from "../Components/Footer";
 import "../styles/bookingPage.css";
+
+import { ScryptProvider, SensiletSigner, Scrypt } from "scrypt-ts";
+import { Escrow } from "../contracts/Escrow";
 
 function BookingDetails() {
   const { id } = useParams();
@@ -18,7 +21,14 @@ function BookingDetails() {
   const [dropDate, setDropDate] = useState("");
   const [diffDays, setDiffDays] = useState(0);
 
+  const signerRef = useRef<SensiletSigner>();
+  const [error, setError] = useState("");
+  const [contractInstance, setContract] = useState<Escrow>();
+
   useEffect(() => {
+    const provider = new ScryptProvider();
+    const signer = new SensiletSigner(provider);
+    signerRef.current = signer;
     let locationDetails: any = localStorage.getItem("locationDetails");
     locationDetails = JSON.parse(locationDetails);
     setPickupLocation(locationDetails.pickup);
@@ -41,12 +51,55 @@ function BookingDetails() {
     });
   }, []);
 
-  const setFinalPay = () => {
+  async function fetchContract() {
+    try {
+      const instance = await Scrypt.contractApi.getLatestInstance(Escrow, {
+        txId: "f0994f4fb87915cc89af0206372cab282bfd3dcd752462c59322074b4bffaac3",
+        outputIndex: 0,
+      });
+      setContract(instance);
+    } catch (error: any) {
+      console.log("error", error);
+      setError(error.message);
+    }
+  }
+
+  async function payDeposit() {
     localStorage.setItem(
       "totalCost",
       String(tax * baseRate * diffDays + baseRate * diffDays)
     );
-  };
+    await fetchContract();
+    const signer = signerRef.current as SensiletSigner;
+    console.log(signer, contractInstance);
+
+    if (contractInstance && signer) {
+      const { isAuthenticated, error } = await signer.requestAuth();
+      if (!isAuthenticated) {
+        throw new Error(error);
+      }
+
+      await contractInstance.connect(signer);
+      const nextInstance = contractInstance.next();
+
+      contractInstance.methods
+        .confirmDeposit({
+          next: {
+            instance: nextInstance,
+            balance: contractInstance.balance,
+          },
+        })
+        .then((result) => {
+          setContract(nextInstance);
+          console.group(result.tx.id);
+        })
+        .catch((e) => {
+          setError(e.message);
+          console.error(e.message);
+        });
+      await fetchContract();
+    }
+  }
 
   return (
     <>
@@ -146,12 +199,15 @@ function BookingDetails() {
                   </div>
                 </div>
               </div>
-              <button className="bookingButton" onClick={() => setFinalPay()}>
+              <button className="bookingButton" onClick={() => payDeposit()}>
+                Make Payement: £100{" "}
+              </button>
+              <button className="errSubmitButton CarButton">
                 <Link
                   to={`pickup/${cardata.id}`}
                   style={{ textDecoration: "none", color: "white" }}
                 >
-                  Make Payement: £100{" "}
+                  Get the Car{" "}
                 </Link>
               </button>
               <div className="locationConfirmation">

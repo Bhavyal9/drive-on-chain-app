@@ -65,7 +65,7 @@ function CarCard() {
       } else if (candidateName === "Mercedes") {
         nextInstance.candidates[3].votesReceived++;
       }
-      console.log(candidateName, nextInstance);
+
       contract.methods
         .vote(toByteString(candidateName, true), {
           next: {
@@ -87,13 +87,15 @@ function CarCard() {
   return (
     <>
       <div className="car-display-section">
-        <h2 className="hot-offers">Hot Offers</h2>
+        <h2 className="l-heading">Hot Offers</h2>
         <div className="list-of-cars">
           {cardatas.map((cardata) => (
             <div className="car-card">
               <img
                 src={cardata.imgUrl}
                 className="car-img"
+                height="120px"
+                width="180px"
                 alt={cardata.imgUrl}
               ></img>
               <h3>{cardata.brand}</h3>

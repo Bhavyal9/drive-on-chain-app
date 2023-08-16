@@ -32,10 +32,9 @@ const CompleteJourney = () => {
             incidents:
           </p>
           <input type="textarea" name="textValue" className="errText" />
-          <button className="errSubmitButton">Submit</button>
+          <button className="errSubmitButton">Submit & Get Deposit</button>
         </div>
       </div>
-      <button className="refundButton">Get Refund</button>
       <div>
         <hr className="completeJourneyHr" />
         <div className="voting">

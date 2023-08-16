@@ -8,6 +8,8 @@ import {
     SmartContract,
 } from 'scrypt-ts'
 
+export type Message = ByteString
+
 export class BookingDetails extends SmartContract {
     @prop()
     hash: Sha256

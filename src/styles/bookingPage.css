@@ -54,3 +54,7 @@
 .bookingButton:hover{
     background-color:#0c6608;
 }
+
+.CarButton{
+    margin-left:20px;
+}
