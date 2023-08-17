@@ -9,7 +9,7 @@ import artifact from "../artifacts/driveOnChainApp.json";
 import { BookingDetails } from "./contracts/bookingDetails";
 import artifact2 from "../artifacts/bookingDetails.json";
 import { Escrow } from "./contracts/Escrow";
-import artifact3 from "../artifacts/escrow.json";
+import artifact3 from "../artifacts/Escrow.json";
 
 DriveOnChainApp.loadArtifact(artifact);
 BookingDetails.loadArtifact(artifact2);

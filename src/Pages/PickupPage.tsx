@@ -14,6 +14,13 @@ import {
   sha256,
   toByteString,
   Scrypt,
+  Sig,
+  MethodCallOptions,
+  PubKey,
+  ContractTransaction,
+  bsv,
+  Utils,
+  findSig,
 } from "scrypt-ts";
 
 const check = require("../asset/tick.gif");
@@ -87,36 +94,76 @@ const PickupPage = () => {
   }
 
   async function payFinalPayement() {
-    await fetchContract();
-    const signer = signerRef.current as SensiletSigner;
-    console.log(signer, contractInstance);
+    // TODO: I see you hard-coded the deployed escrow contract.
+    //       Note, that similar to your BookingDetails contract, the Escrow 
+    //       contract is not stateful, so it gets terminated once a public method is
+    //       sucessfully called.
+    //       Additionally, the confirmPayment public function will enforce the next output to be a P2PKH
+    //       payment output to the seller. For that you need to bind a custom tx builder to the contract call.
+    //        
+    //       Below I have adapted the code to what it should look like for a correct call.
+    //       But obviously it wont work on an already spend one.
+    //await fetchContract();
+    //const signer = signerRef.current as SensiletSigner;
+    //console.log(signer, contractInstance);
 
-    if (contractInstance && signer) {
-      const { isAuthenticated, error } = await signer.requestAuth();
-      if (!isAuthenticated) {
-        throw new Error(error);
-      }
+    //if (contractInstance && signer) {
+    //  const { isAuthenticated, error } = await signer.requestAuth();
+    //  if (!isAuthenticated) {
+    //    throw new Error(error);
+    //  }
 
-      await contractInstance.connect(signer);
-      const nextInstance = contractInstance.next();
+    //  await contractInstance.connect(signer);
 
-      contractInstance.methods
-        .confirmPayment({
-          next: {
-            instance: nextInstance,
-            balance: contractInstance.balance,
-          },
-        })
-        .then((result) => {
-          setContract(nextInstance);
-          console.group(result.tx.id);
-        })
-        .catch((e) => {
-          setError(e.message);
-          console.error(e.message);
-        });
-      await fetchContract();
-    }
+    //  // Bind custom tx builder:
+    //  contractInstance.bindTxBuilder("confirmPayment",
+    //    (
+    //      current: Escrow,
+    //      options: MethodCallOptions<Escrow>
+    //    ): Promise<ContractTransaction> => {
+    //      const unsignedTx: bsv.Transaction = new bsv.Transaction()
+    //        // add contract input
+    //        .addInput(current.buildContractInput(options.fromUTXO))
+    //        // build seller payment (P2PKH) output
+    //        .addOutput(
+    //          new bsv.Transaction.Output({
+    //            script: bsv.Script.fromHex(
+    //              Utils.buildPublicKeyHashScript(current.sellerAddr)
+    //            ),
+    //            satoshis: current.balance,
+    //          })
+    //        )
+
+    //      // build change output
+    //      if (options.changeAddress) {
+    //        unsignedTx.change(options.changeAddress)
+    //      }
+
+    //      return Promise.resolve({
+    //        tx: unsignedTx,
+    //        atInputIndex: 0,
+    //        nexts: [],
+    //      })
+    //    }
+    //  )
+    //  
+    //  // TODO: Make sure the signer has both the buyers and sellers private key.
+
+    //  const res = await contractInstance.methods.confirmPayment(
+    //    (sigResps) => findSig(sigResps, buyerPublicKey),
+    //    buyerPubKey,
+    //    (sigResps) => findSig(sigResps, sellerPublicKey),
+    //    sellerPubKey,
+    //    {
+    //      changeAddress: await signer.getDefaultAddress(),
+    //      pubKeyOrAddrToSign: [buyerPublicKey, sellerPublicKey]
+    //    } as MethodCallOptions<Escrow>
+    //  )
+
+    //  console.log('Confirm payment call txid:', res.tx.id)
+
+    //  await fetchContract();
+    //}
   }
 
   return (
