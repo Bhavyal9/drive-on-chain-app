@@ -26,7 +26,7 @@ function CarDetails() {
                 ></img>
                 <div className="car-imp-data">
                   <h3>{cardata.brand}</h3>
-                  <p className="price">Price: ${cardata.price}</p>
+                  <p className="price">Price: £{cardata.price}</p>
                   <div className="full-ratings">
                     <p>
                       <AiFillStar className="star" /> {cardata.star}
@@ -51,7 +51,7 @@ function CarDetails() {
                   to={`book/${cardata.id}`}
                   style={{ textDecoration: "none", color: "white" }}
                 >
-                  Book Now by Paying $100
+                  Book Car
                 </Link>
               </button>
             </div>

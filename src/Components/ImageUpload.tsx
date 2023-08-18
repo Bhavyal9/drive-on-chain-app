@@ -1,18 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 
 const ImageUpload = () => {
-  const [images, setImages] = React.useState([]);
+  const [images, setImages] = useState([]);
   const maxNumber = 5;
+  const [URL, setURL] = useState("");
   const onChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
     // data for submit
-    console.log(imageList, addUpdateIndex);
     setImages(imageList as never[]);
   };
-
   return (
     <div>
       <ImageUploading
@@ -58,8 +57,18 @@ const ImageUpload = () => {
                     className="err-images"
                   />
                   <div className="image-item__btn-wrapper">
-                    <button onClick={() => onImageUpdate(index)}>Update</button>
-                    <button onClick={() => onImageRemove(index)}>Remove</button>
+                    <button
+                      className="errSubmitButton"
+                      onClick={() => onImageUpdate(index)}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="errSubmitButton"
+                      onClick={() => onImageRemove(index)}
+                    >
+                      Remove
+                    </button>
                   </div>
                 </div>
               ))}

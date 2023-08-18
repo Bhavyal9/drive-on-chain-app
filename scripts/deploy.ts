@@ -53,20 +53,20 @@ async function main() {
     console.log(`scriptHash: ${scriptHash}`)
 
         // //contract 2
-        const buyerPublicKeyHash = 'mxLfvwv8tYw2FtUFbFnHUgQprsGooXkQuZ';
-        const buyerAddr = PubKeyHash(buyerPublicKeyHash)
         
+        const buyerAddr = bsv.Address.fromString('mw7BPXAQpAQLPJ5zWcrsd9XH68Xwi7WBdj', bsv.Networks.testnet)
+        const buyerPublicKeyHash = PubKeyHash(buyerAddr.toHex().slice(2))
         
-        const sellerPublicKeyHash = 'mrL7WyVbjhyVsYn3WEvgtwaMCp43AHEiGU';
-        const sellrAddr = PubKeyHash(sellerPublicKeyHash);
-        
-        const arbiterPublicKeyHash = 'mw7BPXAQpAQLPJ5zWcrsd9XH68Xwi7WBdj'
-        const arbiterAddr =  PubKeyHash(arbiterPublicKeyHash);
+        const sellrAddr= bsv.Address.fromString('mw7BPXAQpAQLPJ5zWcrsd9XH68Xwi7WBdj', bsv.Networks.testnet)
+        const sellerPublicKeyHash = PubKeyHash(sellrAddr.toHex().slice(2))
+
+        const arbiterAddr = bsv.Address.fromString('mw7BPXAQpAQLPJ5zWcrsd9XH68Xwi7WBdj', bsv.Networks.testnet)
+        const arbiterPublicKeyHash = PubKeyHash(arbiterAddr.toHex().slice(2))
 
         const instance2 = new Escrow(
-            buyerAddr, 
-            sellrAddr, 
-            arbiterAddr,
+            buyerPublicKeyHash, 
+            sellerPublicKeyHash, 
+            arbiterPublicKeyHash,
         )
     
         // Connect to a signer.

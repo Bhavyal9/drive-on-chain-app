@@ -21,17 +21,17 @@ export class Escrow extends SmartContract {
     readonly sellerAddr: PubKeyHash
 
     @prop()
-    readonly arbiter: PubKeyHash
+    readonly arbiterAddr: PubKeyHash
 
     constructor(
         buyerAddr: PubKeyHash,
         sellerAddr: PubKeyHash,
-        arbiter: PubKeyHash,
+        arbiterAddr: PubKeyHash,
     ) {
         super(...arguments)
         this.buyerAddr = buyerAddr
         this.sellerAddr = sellerAddr
-        this.arbiter = arbiter
+        this.arbiterAddr = arbiterAddr
         
     }
 
@@ -39,10 +39,10 @@ export class Escrow extends SmartContract {
     public confirmDeposit(
         buyerSig: Sig,
         buyerPubKey: PubKey,
-        arbiter: PubKey,
-        arbiterSig: Sig
-        
-    ) {
+        arbiterSig: Sig,
+        arbiterPubKey : PubKey
+    ) 
+    {
         // Validate buyer sig.
         assert(
             hash160(buyerPubKey) === this.buyerAddr,
@@ -53,22 +53,60 @@ export class Escrow extends SmartContract {
             'buyer signature check failed'
         )
         
-        // Validate arbiter sig.
+        // Validate seller sig.
         assert(
-            hash160(arbiter) === this.arbiter,
-            'invalid public key for arbiter'
+            hash160(arbiterPubKey) === this.sellerAddr,
+            'invalid public key for seller'
         )
         assert(
-            this.checkSig(arbiterSig, arbiter),
-            'arbiter    signature check failed'
+            this.checkSig(arbiterSig, arbiterPubKey),
+            'seller signature check failed'
         )
 
-
-        // Ensure arbiter gets paid.
-        const deposit = this.ctx.utxo.value
-        const out = Utils.buildPublicKeyHashOutput(this.arbiter, deposit)
+    
+        // Ensure seller gets paid.
+        const amount = this.ctx.utxo.value
+        const out = Utils.buildPublicKeyHashOutput(this.sellerAddr, amount)
         assert(hash256(out) === this.ctx.hashOutputs, 'hashOutputs mismatch')
     }
+
+    
+
+    // @method(SigHash.ANYONECANPAY_SINGLE)
+    // public confirmDeposit(
+    //     buyerSig: Sig,
+    //     buyerPubKey: PubKey,
+    //     arKey: PubKey,
+    //     arbiterSig: Sig
+        
+    // ) {
+    //     console.log(buyerPubKey,hash160(buyerPubKey),this.buyerAddr)
+    //     // Validate buyer sig.
+    //     assert(
+    //        hash160(buyerPubKey) === this.buyerAddr,
+    //         'invalid public key for buyer'
+    //     )
+    //     assert(
+    //         this.checkSig(buyerSig, buyerPubKey),
+    //         'buyer signature check failed'
+    //     )
+        
+    //     // Validate arbiter sig.
+    //     assert(
+    //         hash160(arKey) === this.arbiterAddr,
+    //         'invalid public key for arbiter'
+    //     )
+    //     assert(
+    //         this.checkSig(arbiterSig, arKey),
+    //         'arbiter signature check failed'
+    //     )
+
+
+    //     // Ensure arbiter gets paid.
+    //     const amount = this.ctx.utxo.value
+    //     const out = Utils.buildPublicKeyHashOutput(this.arbiterAddr, amount)
+    //     assert(hash256(out) === this.ctx.hashOutputs, 'hashOutputs mismatch')
+    // }
 
     @method(SigHash.ANYONECANPAY_SINGLE)
     public confirmPayment(
@@ -88,7 +126,7 @@ export class Escrow extends SmartContract {
             'buyer signature check failed'
         )
         
-        // Validate arbiter sig.
+        // Validate seller sig.
         assert(
             hash160(sellerPubKey) === this.sellerAddr,
             'invalid public key for seller'
@@ -105,25 +143,14 @@ export class Escrow extends SmartContract {
         assert(hash256(out) === this.ctx.hashOutputs, 'hashOutputs mismatch')
     }
 
-        @method()
-        public refund(
+    @method(SigHash.ANYONECANPAY_SINGLE)
+    public refund(
         buyerSig: Sig,
         buyerPubKey: PubKey,
-        arbiter: PubKey,
-        arbiterSig: Sig
-
-    ) {
-
-        // Validate arbiter sig.
-        assert(
-            hash160(arbiter) === this.arbiter,
-            'invalid public key for buyer'
-        )
-        assert(
-            this.checkSig(arbiterSig, arbiter),
-            'buyer signature check failed'
-        )
-
+        arbiterSig: Sig,
+        arbiterPubKey : PubKey
+    ) 
+    {
         // Validate buyer sig.
         assert(
             hash160(buyerPubKey) === this.buyerAddr,
@@ -133,14 +160,22 @@ export class Escrow extends SmartContract {
             this.checkSig(buyerSig, buyerPubKey),
             'buyer signature check failed'
         )
-
-
-        // Ensure buyer gets refund.
-        const amount = this.ctx.utxo.value
-        const out = Utils.buildPublicKeyHashOutput(this.buyerAddr, amount)
-        assert(hash256(out) === this.ctx.hashOutputs, 'hashOutputs mismatch')
         
-    }
+        // Validate arbiter sig.
+        assert(
+            hash160(arbiterPubKey) === this.sellerAddr,
+            'invalid public key for seller'
+        )
+        assert(
+            this.checkSig(arbiterSig, arbiterPubKey),
+            'seller signature check failed'
+        )
 
+    
+        // Ensure seller gets paid.
+        const amount = this.ctx.utxo.value
+        const out = Utils.buildPublicKeyHashOutput(this.arbiterAddr, amount)
+        assert(hash256(out) === this.ctx.hashOutputs, 'hashOutputs mismatch')
+    }
 
 }

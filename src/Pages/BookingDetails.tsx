@@ -5,14 +5,25 @@ import Nav from "../Components/Nav";
 import Footer from "../Components/Footer";
 import "../styles/bookingPage.css";
 
-import { ScryptProvider, SensiletSigner, Scrypt } from "scrypt-ts";
+import {
+  ScryptProvider,
+  SensiletSigner,
+  Scrypt,
+  bsv,
+  PubKey,
+  findSig,
+  MethodCallOptions,
+  Utils,
+  ContractTransaction,
+} from "scrypt-ts";
 import { Escrow } from "../contracts/Escrow";
+import { toast } from "react-toastify";
 
 function BookingDetails() {
   const { id } = useParams();
   const cardatas = CarDatas;
   const tax = 0.1;
-  const [baseRate, setBaseRate] = useState(0);
+  const [baseRate, setBaseRate] = useState(100);
   const [pickupLocation, setPickupLocation] = useState("");
   const [dropLocation, setDropLocation] = useState("");
   const [pickupTime, setPickupTime] = useState("");
@@ -43,7 +54,7 @@ function BookingDetails() {
     const diffTime: any = Math.abs(date2 - date1);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     setDiffDays(diffDays);
-
+    localStorage.setItem("days", diffDays.toString());
     cardatas.forEach((cardata) => {
       if (cardata.id === Number(id)) {
         setBaseRate(cardata.price);
@@ -54,7 +65,7 @@ function BookingDetails() {
   async function fetchContract() {
     try {
       const instance = await Scrypt.contractApi.getLatestInstance(Escrow, {
-        txId: "f0994f4fb87915cc89af0206372cab282bfd3dcd752462c59322074b4bffaac3",
+        txId: "f1980412b045570092d5db653562476b450352d4a277de8064523df03606bf3b",
         outputIndex: 0,
       });
       setContract(instance);
@@ -65,14 +76,9 @@ function BookingDetails() {
   }
 
   async function payDeposit() {
-    localStorage.setItem(
-      "totalCost",
-      String(tax * baseRate * diffDays + baseRate * diffDays)
-    );
     await fetchContract();
     const signer = signerRef.current as SensiletSigner;
     console.log(signer, contractInstance);
-
     if (contractInstance && signer) {
       const { isAuthenticated, error } = await signer.requestAuth();
       if (!isAuthenticated) {
@@ -80,27 +86,76 @@ function BookingDetails() {
       }
 
       await contractInstance.connect(signer);
-      const nextInstance = contractInstance.next();
 
-      contractInstance.methods
-        .confirmDeposit({
-          next: {
-            instance: nextInstance,
-            balance: contractInstance.balance,
-          },
-        })
-        .then((result) => {
-          setContract(nextInstance);
-          console.group(result.tx.id);
-        })
-        .catch((e) => {
-          setError(e.message);
-          console.error(e.message);
-        });
+      // Bind custom tx builder:
+      contractInstance.bindTxBuilder(
+        "confirmDeposit",
+        (
+          current: Escrow,
+          options: MethodCallOptions<Escrow>
+        ): Promise<ContractTransaction> => {
+          const unsignedTx: bsv.Transaction = new bsv.Transaction()
+            // add contract input
+            .addInput(current.buildContractInput(options.fromUTXO))
+            // build seller payment (P2PKH) output
+            .addOutput(
+              new bsv.Transaction.Output({
+                script: bsv.Script.fromHex(
+                  Utils.buildPublicKeyHashScript(current.arbiterAddr)
+                ),
+                satoshis: current.balance,
+              })
+            );
+
+          // build change output
+          if (options.changeAddress) {
+            unsignedTx.change(options.changeAddress);
+          }
+
+          return Promise.resolve({
+            tx: unsignedTx,
+            atInputIndex: 0,
+            nexts: [],
+          });
+        }
+      );
+
+      const buyerPublicKey: bsv.PublicKey = await signer.getDefaultPubKey();
+      const buyerPubKey: PubKey = PubKey(buyerPublicKey.toHex());
+      const arbiterPublicKey: bsv.PublicKey = await signer.getDefaultPubKey();
+      const arbiterPubKey: PubKey = PubKey(arbiterPublicKey.toHex());
+
+      console.log(buyerPublicKey);
+      const res = await contractInstance.methods.confirmDeposit(
+        (sigResps) => findSig(sigResps, buyerPublicKey),
+        buyerPubKey,
+        (sigResps) => findSig(sigResps, arbiterPublicKey),
+        arbiterPubKey,
+        {
+          changeAddress: await signer.getDefaultAddress(),
+          pubKeyOrAddrToSign: [buyerPublicKey, arbiterPublicKey],
+        } as MethodCallOptions<Escrow>
+      );
+
+      console.log("Confirm payment call txid:", res.tx.id);
+      localStorage.setItem("depoTx", res.tx.id);
+      toast.success(`Yay! Reservation confirmed. Call txid:, ${res.tx.id}`, {
+        position: "top-right",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       await fetchContract();
     }
   }
-
+  localStorage.setItem(
+    "totalCost",
+    String(tax * baseRate * diffDays + baseRate * diffDays)
+  );
   return (
     <>
       <Nav />
@@ -135,7 +190,7 @@ function BookingDetails() {
                     <div className="summary-content">
                       <p className="bold">Final Cost</p>
                       <p className="bold">
-                        £ {tax * baseRate * diffDays + baseRate * diffDays}
+                        £{tax * baseRate * diffDays + baseRate * diffDays}
                       </p>
                     </div>
                   </div>
@@ -188,21 +243,24 @@ function BookingDetails() {
                         <p>{dropLocation}</p>
                       </div>
                       <div className="c-row">
-                        <p>Drop Date</p>
-                        <p>{dropDate}</p>
+                        <p className="drop">Drop Date</p>
+                        <p className="drop">{dropDate}</p>
                       </div>
-                      <div className="c-row">
-                        <p>Drop Time</p>
-                        <p>{dropTime}</p>
+                      <div className="c-row drop">
+                        <p className="drop-r">Drop Time</p>
+                        <p className="drop-r">{dropTime}</p>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <button className="bookingButton" onClick={() => payDeposit()}>
+              <button
+                className="bookingButton CarButton"
+                onClick={() => payDeposit()}
+              >
                 Make Payement: £100{" "}
               </button>
-              <button className="errSubmitButton CarButton">
+              <button className="errSubmitButton">
                 <Link
                   to={`pickup/${cardata.id}`}
                   style={{ textDecoration: "none", color: "white" }}
@@ -212,9 +270,15 @@ function BookingDetails() {
               </button>
               <div className="locationConfirmation">
                 <p className="bold">Pick Up Location</p>
-                <p>Stoke Bishop, Tunstall Close, StokeHolm, United Kingdom</p>
+                <p>
+                  Stoke Bishop, Tunstall Close, StokeHolm, {pickupLocation},
+                  United Kingdom
+                </p>
                 <p className="bold">Drop Location</p>
-                <p>Walker Point West, 234 Road, Hayes, United Kingdom</p>
+                <p>
+                  Walker Point West, 234 Road, Hayes, {dropLocation}, United
+                  Kingdom
+                </p>
               </div>
             </div>
           )

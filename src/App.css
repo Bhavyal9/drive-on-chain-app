@@ -39,8 +39,11 @@ hr{
 .req-call, .bookingButton{
     padding:7px 10px;
     border-radius:5px;
-    color:#f79413;
     border:none;
+}
+
+.req-call{
+    color:#f79413;
 }
 
 .call-icon{
@@ -75,4 +78,25 @@ padding:5px 10px;
 
 .bcolor{
     color:#f79413
+}
+
+.adminHeader{
+    margin-top:20px;
+}
+
+.main-admin-header{
+    margin:20px 20px -10px
+}
+.admin-img{
+    display:flex;
+}
+
+.a-img{
+    width:210px;
+    height:210px;
+    margin:10px;
+}
+
+.amnt{
+    margin:30px 20px -20px;
 }

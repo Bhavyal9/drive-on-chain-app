@@ -1,7 +1,7 @@
 import React from "react";
 
-const logo1 = require("../asset/vote.gif");
-const logo2 = require("../asset/vote.gif");
+const img1 = require("../asset/img1.gif");
+const img2 = require("../asset/img2.gif");
 
 const Mission = () => {
   return (
@@ -9,7 +9,7 @@ const Mission = () => {
       <div className="message">
         <h1 className="l-heading">Our Mission and Vision</h1>
         <div className="landing-content">
-          <img src={logo1} alt="img1"></img>
+          <img src={img1} alt="customer choosing car"></img>
           <div>
             <h2 className="l-content">Mission</h2>
             <p className="l-content">
@@ -31,7 +31,7 @@ const Mission = () => {
               cleaner and healthier planet.
             </p>
           </div>
-          <img src={logo1} alt="img1"></img>
+          <img src={img2} alt="electric car" width="350px"></img>
         </div>
       </div>
     </>

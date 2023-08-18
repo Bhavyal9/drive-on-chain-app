@@ -128,7 +128,7 @@ function CarCard() {
                   to={`/${cardata.id}`}
                   style={{ textDecoration: "none", color: "white" }}
                 >
-                  Book Now
+                  Get Car
                 </Link>
               </button>
             </div>

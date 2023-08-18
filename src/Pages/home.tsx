@@ -14,6 +14,7 @@ function home() {
       <hr />
       <Selection />
       <hr />
+      <p className="amnt bold">Current Price: 1 Pound = 0.0408 BSV</p>
       <CarCard />
       <Mission />
       <Footer />

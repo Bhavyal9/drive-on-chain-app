@@ -57,4 +57,18 @@
 
 .CarButton{
     margin-left:20px;
+    color:white;
+}
+
+.CarButton:hover{
+    background-color:#0c6608;
+    cursor:pointer;
+}
+
+.drop{
+    margin-right:2px;
+}
+
+.drop-r{
+    margin-right:12px;
 }
